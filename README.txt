@@ -9,12 +9,15 @@ feedback to the svd2nim project.
 ## Requirements
 
 An `arm-none-eabi-*` toolchain must be in your PATH.
+If you don't have that installed, check your OS/distro's package manager.
+If you still can't find one, try here: https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
 
 ## HOW-TO use this project
 
 1) Run `nimble build` to generate .o files (ELF 32-bit LSB relocatable, ARM, EABI5)
 2) Run `nimble dis` to disassemble the .o files to text/assembly
 3) Compare the before and after .o and disassembly files
+4) Experiment with your own modifications to the "after" files to see if you can make the .o files even more efficient.
 
 ## Enhancements to svd2nim output
 

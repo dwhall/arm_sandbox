@@ -18,11 +18,16 @@ requires "nim >= 1.6.0"
 import std/strformat
 import std/strutils
 
+when defined(windows):
+  let odBin = "arm-none-eabi-objdump.exe"
+else:
+  let odBin = "arm-none-eabi-objdump"
+
 task dis, "Disassembles all build/nimcache/*.o files":
-  assert findExe("arm-none-eabi-objdump").len > 0, "arm-none-eabi toolchain not found in PATH"
+  assert findExe(odBin).len > 0, "{odBin} not found in PATH"
   withDir("./build/nimcache"):
     for fn in listFiles(getCurrentDir()):
       if fn.endsWith(".o"):
         let disasmfn = fn & ".disasm.txt"
-        exec(fmt"arm-none-eabi-objdump -D {fn} > {disasmfn}")
+        exec(fmt"{odBin} -D {fn} > {disasmfn}")
         echo fmt"wrote {disasmfn}"
