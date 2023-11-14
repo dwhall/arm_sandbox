@@ -5,7 +5,7 @@ author        = "!!Dean"
 description   = "Cross compile for ARM to demonstrate svd2nim-generated code"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["main_before"] #, "main_after"]
+bin           = @["main_before", "main_after"]
 
 
 # Dependencies
