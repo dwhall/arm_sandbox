@@ -27,7 +27,7 @@ else:
 
 task cross, "Builds the bins with the host-specific cross-compiler":
   for fn in bin:
-    exec(fmt"nim c --arm.standalone.gcc.exe={gccBin} {srcDir}/{fn}")
+    exec(fmt"nim c --arm.any.gcc.exe={gccBin} {srcDir}/{fn}")
 
 task dis, "Disassembles all build/nimcache/*.o files":
   assert findExe(odBin).len > 0, "{odBin} not found in PATH"
