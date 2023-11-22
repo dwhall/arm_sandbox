@@ -1,6 +1,3 @@
-# Snippets taken from the converted output of an SVD file
-# for an STM32F446 microcontroller
-
 import std/bitops
 import std/volatile
 
@@ -245,3 +242,22 @@ proc `BS5=`*(r: var GPIOA_BSRR_Fields, val: bool) {.inline.} =
   tmp.setMask((val.uint32 shl 5).masked(5 .. 5))
   r = tmp.GPIOA_BSRR_Fields
 
+
+proc main =
+  # Configure A5 as a GPIO output pin
+  modifyIt(RCC.AHB1ENR): it.GPIOAEN = true
+  modifyIt(GPIOA.MODER): it.MODER5 = 1
+
+  # Perform bit-set, bit-clear on A5
+  # TODO: Is there a way to create a "let" value, v, to pass to write()?
+  var setval:GPIOA_BSRR_Fields
+  var clrval:GPIOA_BSRR_Fields
+  setval.BS5 = true
+  clrval.BR5 = true
+  while true:
+    GPIOA.BSRR.write(setval)
+    GPIOA.BSRR.write(clrval)
+
+
+when isMainModule:
+  main()
