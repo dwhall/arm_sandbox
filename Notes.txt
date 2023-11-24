@@ -1,0 +1,53 @@
+Analysis of Effects of Code Generation Changes
+==============================================
+
+Method
+------
+
+Start with a simple main() that employs the most common use patterns.
+Run `svd2nim`-equivalent on it, compile to .o and disassemble to establish a baseline.
+Examine the initialized data (.data), code (.text) and uninitialized data (.bss);
+that is the suggested priority order as well.
+
+Results
+-------
+
+::
+   text    data     bss     dec     hex filename
+   1484       0      12    1496     5d8 @mmain_orig.nim.c.o
+   1016       0      12    1028     404 @mmain_1.nim.c.o
+    880       0      12     892     37c @mmain_2.nim.c.o
+    408       0      12     420     1a4 @mmain_3.nim.c.o
+
+main_orig.nim
+-------------
+
+Snippets taken from the output of `svd2nim` using an SVD file
+for an STM32F446 microcontroller.
+
+main_1.nim
+----------
+
+Differences from `svd2nim`:
+
+* Eliminate Peripheral's big list of addresses.
+* Declare RegisterVal as an int the size of the architecture's registers, uint.
+* Declare each register value type as a distinct RegisterVal.
+* Declare a ptr to that register value
+* Define a const register value, casting the register's address as a ptr to the register value.
+* All reg parameters in read/write/modifyIt are `static`
+
+main_2.nim
+----------
+
+Differences from `main_1.nim`:
+
+* In read/write/volatileLoad, replace use of `reg` parameter with const register.
+* Replace modifyIt's read/write with volatileLoad/Store.
+
+main_3.nim
+----------
+
+Differences from `main_2.nim`:
+
+* Replaced all calls to bitops funcs (except bitNot) with and/or keywords
