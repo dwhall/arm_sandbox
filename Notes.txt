@@ -43,6 +43,7 @@ Results
     880       0      12     892     37c @mmain_2.nim.c.o
     408       0      12     420     1a4 @mmain_3.nim.c.o
     380       0      12     392     188 @mmain_4.nim.c.o
+    392       0      12     404     194 @mmain_5.nim.c.o
 
 main_orig.nim
 -------------
@@ -83,3 +84,12 @@ main_4.nim
 Differences from `main_3.nim`:
 
 * Access registers via <peripheral>.<reg>
+
+main_5.nim
+----------
+
+Differences from `main_5.nim`:
+
+* Replace modifyIt() with chained <peripheral>.<reg>.<regFieldName>(val).write()
+
+Commentary: This sacrifices some size to gain a more fluid expression (matter of opinion)
