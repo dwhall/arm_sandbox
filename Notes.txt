@@ -1,6 +1,30 @@
 Analysis of Effects of Code Generation Changes
 ==============================================
 
+Cross-compiler version matters
+------------------------------
+
+I've found that the version of the arm-none-eabi-gcc toolchain matters when called by Nim.
+Here is my experience:
+
+==============  ================================================================================
+Version         Result
+==============  ================================================================================
+5.4.1           Works
+8.3.1           Works
+9.2.1           Works
+11.3.r1         `gcc` works, but `size` errors out because of the *.o argument
+13.2.r1         fatal error: cannot execute 'cc1': CreateProcess: No such file or directory
+==============  ================================================================================
+
+Version details:
+* 5.4.1 == arm-none-eabi-gcc (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-branch revision 237715]
+* 8.3.1 == arm-none-eabi-gcc (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 8.3.1 20190703 (release) [gcc-8-branch revision 273027]
+* 9.2.1 == arm-none-eabi-gcc (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+* 11.3.r1 == arm-none-eabi-gcc (Arm GNU Toolchain 11.3.Rel1) 11.3.1 20220712
+* 13.2.r1 == arm-none-eabi-gcc (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009
+
+
 Method
 ------
 

@@ -27,7 +27,7 @@ task cross, "Cross-compiles all src/*.nim files":
   assert findExe(gccBin).len > 0, "{gccBin} not found in PATH"
   for fn in listFiles(getCurrentDir() & DirSep & srcDir):
     if fn.endsWith(".nim"):
-      exec(fmt"nim c --arm.any.gcc.exe={gccBin} {fn}")
+      exec(fmt"nim c --cpu:arm --os:any --cc:gcc --arm.any.gcc.exe={gccBin} {fn}")
   withDir("./build/nimcache"):
     exec(fmt"{sizeBin} *.o")
 
