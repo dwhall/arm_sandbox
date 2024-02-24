@@ -1,3 +1,4 @@
+
 Analysis of Effects of Code Generation Changes
 ==============================================
 
@@ -46,6 +47,7 @@ Results
     408       0      12     420     1a4 @mmain_3.nim.c.o
     380       0      12     392     188 @mmain_4.nim.c.o
     392       0      12     404     194 @mmain_5.nim.c.o
+    956       0      12     968     3c8 @mmain_6.nim.c.o
 
 main_orig.nim
 -------------
@@ -90,8 +92,35 @@ Differences from `main_3.nim`:
 main_5.nim
 ----------
 
-Differences from `main_5.nim`:
+Differences from `main_4.nim`:
 
 * Replace modifyIt() with chained <peripheral>.<reg>.<regFieldName>(val).write()
 
 Commentary: This sacrifices some size to gain a more fluid expression (matter of opinion)
+
+main_6.nim
+----------
+
+This is a complete departure from previous exercises.
+Here, I designed how I wish to use the PERIPHERAL.REGISTER.FIELD interface
+and coded it accordingly.  In the main() I employ reg read & write, field read,
+reg read / field modify / reg write.
+
+The resulting .o file has 4 large string sections that start with "/Users/dwhall.."
+I don't know why they are there or how to get rid of them.
+
+reg read:
+    var regValue = <periph>.<reg>   # optional: .uint32
+
+reg write:
+    <periph>.<reg> = value      # value is uint32
+
+field read (shifts field-offset value down to no offset):
+    var regField = <periph>.<reg>.<field>   # optional: .uint32
+
+Write a field (shifts a no-offset value up to field-offset)
+Read-modify-write:
+    <periph>.<reg>
+            .<field1>(val1)
+            .<field2>(val2)
+            .write()

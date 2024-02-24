@@ -18,4 +18,4 @@ If you still can't find one, try here: https://developer.arm.com/Tools%20and%20S
 2) Run `nimble dis` to disassemble the .o files to text/assembly
 3) Compare the sequence of main_<#>.o and disassembly files
 4) Review the contents of Notes.txt to understand the changes of each main_<#>.nim file and its impact.
-4) Experiment with your own modifications to the next main_<#>.nim file to see if you can make the .o files even more efficient.
+5) Experiment with your own modifications to the next main_<#>.nim file to see if you can make the .o files even more efficient.
