@@ -22,10 +22,13 @@ func getField[T](regVal: T, bitOffset: static int, bitWidth: static int): T {.in
 {.push stackTrace:off.}
 proc setField[T](
     regVal: T, bitOffset: static int, bitWidth: static int, fieldVal: RegisterVal
-): T {.asmNoStackFrame.} =
+): T =
   asm """
-    BFI `regVal`, `fieldVal`, # bitOffset, `# bitWidth`
-  """
+    MOV %0, %1
+    BFI %0, %2, # bitOffset, #`bitWidth`
+    : "=r" (`result`)
+    :  "r" (`regVal`), "r" (`fieldVal`)
+    """
 {.pop.}
 
 # RCC peripheral
